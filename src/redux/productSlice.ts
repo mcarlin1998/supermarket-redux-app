@@ -5,11 +5,13 @@ import { ProductProps } from "../types";
 interface ProductState {
   items: ProductProps[];
   total: number;
+  productDetails: ProductProps | null;
 }
 
 const initialState: ProductState = {
   items: [],
   total: 0,
+  productDetails: null,
 };
 
 // Set up the slice
@@ -21,9 +23,12 @@ const productSlice = createSlice({
       state.items = action.payload;
       state.total = action.payload.length;
     },
+    showProductDetails: (state, action: PayloadAction<ProductProps>) => {
+      state.productDetails = action.payload;
+    },
   },
 });
 
-export const { addProducts } = productSlice.actions;
+export const { addProducts, showProductDetails } = productSlice.actions;
 
 export default productSlice.reducer;
