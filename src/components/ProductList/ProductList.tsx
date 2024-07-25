@@ -1,8 +1,9 @@
 import React from "react";
-import { ProductProps } from "../../types";
+import { ProductProps, BasketProps } from "../../types";
 import { useDispatch, useSelector } from "react-redux";
 import { State } from "../../redux/store";
 import { showProductDetails } from "../../redux/productSlice";
+import { addItem } from "../../redux/basketSlice";
 import ProductDetail from "../ProductDetail/ProductDetail";
 
 export default function ProductList() {
@@ -19,7 +20,9 @@ export default function ProductList() {
   function showProductItemDetail(product: ProductProps) {
     dispatch(showProductDetails(product));
   }
-
+  function addItemToBasket(product: BasketProps) {
+    dispatch(addItem(product));
+  }
   return (
     <div>
       {productItems.length > 0 ? (
@@ -30,7 +33,9 @@ export default function ProductList() {
               {/* <p>{product.description}</p> */}
               <p>£{product.price.toFixed(2)}</p>
             </figcaption>
-            <button>Add To Basket</button>
+            <button onClick={() => addItemToBasket(product)}>
+              Add To Basket
+            </button>
           </figure>
         ))
       ) : (

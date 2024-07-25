@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { ProductProps } from "./types";
+import { useState, useEffect } from "react";
+import Header from "./components/Header/Header";
+import { ProductProps, BasketProps } from "./types";
+import ProductList from "./components/ProductList/ProductList";
 import { addProducts } from "./redux/productSlice";
 import { State } from "./redux/store";
 import { useDispatch, useSelector } from "react-redux";
-function App() {
+
+export default function App() {
+  // const [products, setProducts] = useState<Array<ProductProps>>([]);
   const [error, setError] = useState<string | null>(null);
+
   const dispatch = useDispatch();
 
   const products: ProductProps[] = useSelector(
     (state: State) => state.products.items
   );
+  const basketProducts: BasketProps[] = useSelector(
+    (state: State) => state.basket.items
+  );
+  console.log(basketProducts);
 
   async function getSuperMarketProducts() {
     try {
@@ -36,26 +46,10 @@ function App() {
 
   return (
     <div className="App">
+      <Header />
       <main>
-        {products.length > 0 ? (
-          products.map((product, index) => {
-            return (
-              <figure key={index}>
-                <figcaption>
-                  <h3>{product.name}</h3>
-                  {/* <p>{product.description}</p> */}
-                  <p>£{product.price.toFixed(2)}</p>
-                </figcaption>
-                <button>Add To Basket</button>
-              </figure>
-            );
-          })
-        ) : (
-          <p>No products available</p>
-        )}
+        {products.length > 0 ? <ProductList /> : <p>No products available</p>}
       </main>
     </div>
   );
 }
-
-export default App;
