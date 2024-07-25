@@ -21,7 +21,6 @@ export default function App() {
   const basketProducts: BasketProps[] = useSelector(
     (state: State) => state.basket.items
   );
-  console.log(basketProducts);
 
   async function getSuperMarketProducts() {
     try {

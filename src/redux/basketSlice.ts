@@ -60,20 +60,24 @@ const basketSlice = createSlice({
       };
     },
     removeItem: (state, action) => {
-      //   const index = action.payload; // removed item index
-      //   const item = state.items[index]; // find the index from state
-      //   if (item.quantity > 1) {
-      //     // if item quantity is more than 1
-      //     item.quantity -= 1; // decrease quantity by 1
-      //     item.totalPrice -= item.price; //decrease price by one item price
-      //     state.total -= item.price; //decrease total price by 1 item price
-      //   } else {
-      //     state.total -= item.price; // decrease removed item price from state
-      //     state.items.splice(index, 1); //Remove the item from the items array in the state using splice
-      //   }
+      const index = action.payload; // removed item index
+      const item: BasketProps = state.items[index]; // find the index from state
+
+      if (item && item.quantity !== undefined && item.price !== undefined) {
+        if (item.quantity > 1) {
+          // If item quantity is more than 1
+          item.quantity -= 1; // Decrease quantity by 1
+          item.totalPrice = (item.totalPrice || 0) - item.price; // Decrease total price of the item by its unit price
+          state.total -= item.price; // Decrease total price in the state by the item's unit price
+        } else {
+          // If item quantity is 1 or less
+          state.total -= item.price; // Decrease total price in the state by the item's price
+          state.items.splice(index, 1); // Remove the item from the items array
+        }
+      }
     },
     calculateTotal: (state) => {
-      //   state.total = state.items.reduce((acc, item) => acc + item.price, 0); //sum up the price of all items in the state.items list
+      state.total = state.items.reduce((acc, item) => acc + item.price, 0); //sum up the price of all items in the state.items list
     },
   },
 });
