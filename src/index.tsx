@@ -11,6 +11,7 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
+  //Wrap App in Redux Provider and PersistGate in order for the application to gain access to redux and persist the state
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

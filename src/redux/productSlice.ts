@@ -19,16 +19,18 @@ const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
+    //reducer method for adding products to redux state
     addProducts: (state, action: PayloadAction<ProductProps[]>) => {
       state.items = action.payload;
       state.total = action.payload.length;
     },
-    showProductDetails: (state, action: PayloadAction<ProductProps>) => {
-      state.productDetails = action.payload;
-    },
+    //Reducer method for setting ProductDetail in state - I think its overkill so I have commented it out and used a local UseState hook instead.
+    // showProductDetails: (state, action: PayloadAction<ProductProps>) => {
+    //   state.productDetails = action.payload;
+    // },
   },
 });
 
-export const { addProducts, showProductDetails } = productSlice.actions;
+export const { addProducts } = productSlice.actions;
 
 export default productSlice.reducer;

@@ -15,13 +15,16 @@ export default function App() {
 
   const dispatch = useDispatch();
 
+  //Store product data from redux to local variable
   const products: ProductProps[] = useSelector(
     (state: State) => state.products.items
   );
+  //Store basketProduct data from redux to local variable
   const basketProducts: BasketProps[] = useSelector(
     (state: State) => state.basket.items
   );
 
+  //Initial fetch api method to  retrieve product data
   async function getSuperMarketProducts() {
     try {
       const res = await fetch(
@@ -31,14 +34,15 @@ export default function App() {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       const products: ProductProps[] = await res.json();
+      //dispatches to redux state via ProductSlice
       dispatch(addProducts(products));
-      // setProducts(products);
     } catch (error) {
       console.error("Error fetching the products:", error);
       setError("Failed to fetch products. Please try again later.");
     }
   }
 
+  //UseEffect hook to call function on initial render
   useEffect(() => {
     getSuperMarketProducts();
   }, [dispatch]);

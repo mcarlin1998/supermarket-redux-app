@@ -4,11 +4,89 @@ import { BasketProps, ProductProps } from "../../types";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { addItem } from "../../redux/basketSlice";
+import React from "react";
 
 interface ProductDetailProps {
   productDetail: ProductProps;
   onClose: () => void;
 }
+
+const ProductDetailContainer = styled.div`
+  position: fixed;
+  left: 400px;
+  flex: 1 1 20rem; /* Allow flex to grow and shrink with a base size of 20rem */
+  outline: 1px solid;
+  background-color: #fff;
+  width: 20rem; /* Fixed width */
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  max-width: 25%;
+
+  min-width: 15rem;
+`;
+
+const ProductFigure = styled.figure`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw; /* Responsive width */
+  max-width: 25rem; /* Max width */
+  min-width: 15rem; /* Min width */
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  box-sizing: border-box; /* Include padding and border in the element’s total width and height */
+  margin: 0; /* Reset margin to avoid unwanted gaps */
+
+  /* Media queries for smaller screens */
+  @media (max-width: 600px) {
+    width: 90vw; /* Adjust width for smaller screens */
+    max-width: 90vw; /* Ensure it does not exceed viewport width */
+  }
+`;
+
+const ProductSvg = styled.svg`
+  width: 100px;
+  height: 100px;
+  margin-bottom: 1rem;
+`;
+
+const ProductDetails = styled.figcaption`
+  text-align: center;
+`;
+
+const ProductButton = styled.button`
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #61dafb;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0383e4;
+  }
+`;
+const CloseButton = styled.button`
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #333;
+
+  &:hover {
+    color: #ff0000;
+  }
+`;
 
 export default function ProductDetail({
   productDetail,
@@ -16,87 +94,11 @@ export default function ProductDetail({
 }: ProductDetailProps) {
   const dispatch = useDispatch();
 
+  //func to add Item to Basket state via basketSlice
   function addItemToBasket(product: BasketProps) {
     dispatch(addItem(product));
     onClose();
   }
-
-  const ProductDetailContainer = styled.div`
-    position: fixed;
-    left: 400px;
-    flex: 1 1 20rem; /* Allow flex to grow and shrink with a base size of 20rem */
-    outline: 1px solid;
-    background-color: #fff;
-    width: 20rem; /* Fixed width */
-    margin: 1rem;
-    padding: 1rem;
-    border-radius: 1rem;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    max-width: 25%;
-
-    min-width: 15rem;
-  `;
-
-  const ProductFigure = styled.figure`
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90vw; /* Responsive width */
-    max-width: 25rem; /* Max width */
-    min-width: 15rem; /* Min width */
-    padding: 1rem;
-    border-radius: 1rem;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    background-color: #fff;
-    box-sizing: border-box; /* Include padding and border in the element’s total width and height */
-    margin: 0; /* Reset margin to avoid unwanted gaps */
-
-    /* Media queries for smaller screens */
-    @media (max-width: 600px) {
-      width: 90vw; /* Adjust width for smaller screens */
-      max-width: 90vw; /* Ensure it does not exceed viewport width */
-    }
-  `;
-
-  const ProductSvg = styled.svg`
-    width: 100px;
-    height: 100px;
-    margin-bottom: 1rem;
-  `;
-
-  const ProductDetails = styled.figcaption`
-    text-align: center;
-  `;
-
-  const ProductButton = styled.button`
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #61dafb;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #0383e4;
-    }
-  `;
-  const CloseButton = styled.button`
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: #333;
-
-    &:hover {
-      color: #ff0000;
-    }
-  `;
 
   return (
     <div>

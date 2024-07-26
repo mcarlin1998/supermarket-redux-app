@@ -2,50 +2,46 @@ import React, { useState } from "react";
 import { ProductProps, BasketProps } from "../../types";
 import { useSelector } from "react-redux";
 import { State } from "../../redux/store";
-import { showProductDetails } from "../../redux/productSlice";
 import ProductDetail from "../ProductDetail/ProductDetail";
 import styled from "styled-components";
 
+//Store styled-components css outside function as test-suite doesnt favour it
+
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 2.5%;
+`;
+const ProductContainer = styled.figure`
+  flex: 1 1 20rem; /* Allow flex to grow and shrink with a base size of 20rem */
+  outline: 1px solid;
+  background-color: #fff;
+  width: 20rem; /* Fixed width */
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  max-width: 25%;
+
+  min-width: 15rem;
+`;
+
 export default function ProductList() {
+  //UseState hook to store ProductDetail to show in modal - removed redux for this as it was overkill
   const [showProductItemDetail, setShowProductItemDetail] =
     useState<ProductProps | null>(null);
 
+  //Retrieves product items from redux
   const productItems: ProductProps[] = useSelector(
     (state: State) => state.products.items
   );
 
-  //   const productDetail: ProductProps | null = useSelector(
-  //     (state: State) => state.products.productDetails
-  //   );
-
-  //   function showProductItemDetail(product: ProductProps) {
-  //     dispatch(showProductDetails(product));
-  //   }
-
+  //Toggle to show ProductDetail Modal
   function toggleModal() {
     setShowProductItemDetail(null);
   }
-
-  const Container = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 2.5%;
-  `;
-  const ProductContainer = styled.figure`
-    flex: 1 1 20rem; /* Allow flex to grow and shrink with a base size of 20rem */
-    outline: 1px solid;
-    background-color: #fff;
-    width: 20rem; /* Fixed width */
-    margin: 1rem;
-    padding: 1rem;
-    border-radius: 1rem;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    max-width: 25%;
-
-    min-width: 15rem;
-  `;
 
   return (
     <div>

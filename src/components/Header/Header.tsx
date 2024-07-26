@@ -1,130 +1,167 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { State } from "../../redux/store";
 import Basket from "../Basket/Basket";
 import styled from "styled-components";
+
+const NavBar = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  color: #666472;
+  padding: 1rem;
+  position: relative; /* Ensure the NavList can be positioned absolutely */
+
+  @media (max-width: 768px) {
+  }
+`;
+
+const NavMobileList = styled.ul`
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @media (max-width: 768px) {
+    display: block;
+    width: 100%;
+    align-items: center;
+    //   flex-direction: column;
+    position: absolute;
+    top: 100%; /* Position below the NavBar */
+    left: 0;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+`;
+const NavList = styled.ul`
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    align-items: center;
+    //   flex-direction: column;
+    position: absolute;
+    top: 100%; /* Position below the NavBar */
+    left: 0;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const NavItem = styled.li`
+  margin: 0 1rem;
+
+  @media (max-width: 768px) {
+    margin: 0.5rem 0;
+  }
+`;
+
+const NavLink = styled.a`
+  color: #666472;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const BasketButton = styled.button`
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: #ddd;
+  }
+
+  .basket-count {
+    margin-left: 0.5rem;
+    background-color: #1a96f3;
+    border-radius: 50%;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  svg {
+    width: 1.125em;
+    height: 1em;
+  }
+`;
+
+const LogoItem = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+
+const BasketContainer = styled.div`
+  position: relative;
+  list-style: none;
+`;
+
+const HamburgerButton = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+const Container = styled.div`
+  display: contents;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+  }
+`;
 export default function Header() {
   const [isBasketOpen, setIsBasketOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const basketItems = useSelector((state: State) => state.basket.items);
 
+  //Toggle for hamburger menu on mobile to show nav list
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  //Calculates total quantity of items in basket
   const totalQuantity = basketItems.reduce(
     (total, item) => total + (item.quantity ?? 1),
     0
   );
+
+  //toggle for showing basket
   const toggleBasket = () => {
     setIsBasketOpen(!isBasketOpen);
   };
 
-  const NavBar = styled.nav`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    color: #666472;
-    padding: 1rem;
-    position: relative; /* Ensure the NavList can be positioned absolutely */
-
-    @media (max-width: 768px) {
+  const handleResize = () => {
+    if (window.innerWidth < 720) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
     }
-  `;
+  };
 
-  const NavList = styled.ul`
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+  });
 
-    @media (max-width: 768px) {
-      width: 100%;
-      align-items: center;
-      display: ${isMenuOpen ? "flex" : "none"};
-      flex-direction: column;
-      position: absolute;
-      top: 100%; /* Position below the NavBar */
-      left: 0;
-      background-color: #ffffff;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-  `;
+  console.log(NavList);
 
-  const NavItem = styled.li`
-    margin: 0 1rem;
-
-    @media (max-width: 768px) {
-      margin: 0.5rem 0;
-    }
-  `;
-
-  const NavLink = styled.a`
-    color: #666472;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  `;
-
-  const BasketButton = styled.button`
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-
-    &:hover {
-      color: #ddd;
-    }
-
-    .basket-count {
-      margin-left: 0.5rem;
-      background-color: #1a96f3;
-      border-radius: 50%;
-      padding: 0.25rem 0.5rem;
-      font-size: 0.75rem;
-    }
-
-    svg {
-      width: 1.125em;
-      height: 1em;
-    }
-  `;
-
-  const LogoItem = styled.div`
-    font-size: 1.5rem;
-    font-weight: bold;
-  `;
-
-  const BasketContainer = styled.div`
-    position: relative;
-    list-style: none;
-  `;
-
-  const HamburgerButton = styled.button`
-    display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-
-    @media (max-width: 768px) {
-      display: block;
-    }
-  `;
-  const Container = styled.div`
-    display: contents;
-
-    @media (max-width: 768px) {
-      display: flex;
-      align-items: center;
-    }
-  `;
   return (
     <header>
       <NavBar>
@@ -132,20 +169,40 @@ export default function Header() {
 
         <Container>
           <HamburgerButton onClick={toggleMenu}>&#9776;</HamburgerButton>
-          <NavList>
-            <NavItem>
-              <NavLink href="/">Home</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="/products">Products</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="/about">About Us</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="/contact">Contact Us</NavLink>
-            </NavItem>
-          </NavList>
+          {/* {isMenuOpen && ( */}
+          {isMobile && isMenuOpen && (
+            <NavMobileList>
+              <NavItem>
+                <NavLink href="/">Home</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/products">Products</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/about">About Us</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/contact">Contact Us</NavLink>
+              </NavItem>
+            </NavMobileList>
+          )}
+
+          {!isMobile && (
+            <NavList>
+              <NavItem>
+                <NavLink href="/">Home</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/products">Products</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/about">About Us</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/contact">Contact Us</NavLink>
+              </NavItem>
+            </NavList>
+          )}
 
           <BasketContainer>
             <BasketButton id="basketButton" onClick={toggleBasket}>
