@@ -28,13 +28,7 @@ const rootReducer = combineReducers({
 // Persist the combined reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// const store = configureStore({
-//   reducer: {
-//     products: productSlice,
-//     basket: basketSlice,
-//   },
-// });
-
+//Configures middleware that checks for non-serializable values. Ignores actions related to redux-persist as the yare safe and only related to rehydration.
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
