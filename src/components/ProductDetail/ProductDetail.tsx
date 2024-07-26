@@ -18,6 +18,7 @@ export default function ProductDetail({
 
   function addItemToBasket(product: BasketProps) {
     dispatch(addItem(product));
+    onClose();
   }
 
   const ProductDetailContainer = styled.div`
@@ -79,7 +80,7 @@ export default function ProductDetail({
     cursor: pointer;
 
     &:hover {
-      background-color: #21a1f1;
+      background-color: #0383e4;
     }
   `;
   const CloseButton = styled.button`

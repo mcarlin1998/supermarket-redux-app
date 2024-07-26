@@ -124,7 +124,7 @@ export default function Basket({ onClose }: Props) {
 
   // Checkout button
   const CheckoutButton = styled.button`
-    background-color: #28a745;
+    background-color: #1a96f3;
     color: white;
     border: none;
     padding: 10px 16px;
@@ -135,7 +135,7 @@ export default function Basket({ onClose }: Props) {
     margin-top: 16px;
 
     &:hover {
-      background-color: #218838;
+      background-color: #0383e4;
     }
   `;
   return (
@@ -146,17 +146,20 @@ export default function Basket({ onClose }: Props) {
         {basketItems.map((item, index) => (
           <ListItem key={index}>
             <ItemDetails>
-              <h3>{item.name}</h3>
-              <p className="item-quantity">{item.quantity}</p>
+              <p>{item.name}</p>
+              <p className="item-quantity">Qty: {item.quantity}</p>
             </ItemDetails>
-            <RemoveButton onClick={() => handleRemoveItem(index)}>
-              Remove
-            </RemoveButton>
+            <div>
+              <p>£{item.price}</p>
+              <RemoveButton onClick={() => handleRemoveItem(index)}>
+                Remove
+              </RemoveButton>
+            </div>
           </ListItem>
         ))}
       </List>
       <Total>
-        <h3>Total: ${total.toFixed(2)}</h3>
+        <h3>Total: £{total.toFixed(2)}</h3>
       </Total>
       <CheckoutButton>Go to Checkout</CheckoutButton>
     </Basket>
