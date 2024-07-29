@@ -160,8 +160,6 @@ export default function Header() {
     window.addEventListener("resize", handleResize);
   });
 
-  console.log(NavList);
-
   return (
     <header>
       <NavBar>

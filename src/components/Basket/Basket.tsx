@@ -138,6 +138,9 @@ export default function Basket({ onClose }: Props) {
     dispatch(calculateTotal());
   };
 
+  console.log(basketItems);
+  console.log(total);
+
   return (
     <BasketContainer>
       <CloseButton onClick={onClose}>&times;</CloseButton>

@@ -77,7 +77,10 @@ const basketSlice = createSlice({
       }
     },
     calculateTotal: (state) => {
-      state.total = state.items.reduce((acc, item) => acc + item.price, 0); //sum up the price of all items in the state.items list
+      state.total = state.items.reduce(
+        (acc, item) => acc + item.price * (item.quantity ? item.quantity : 1),
+        0
+      ); //sum up the price of all items in the state.items list
     },
   },
 });
